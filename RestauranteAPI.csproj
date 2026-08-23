@@ -8,6 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Repositories\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Repositories\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     <PackageReference Include="vue" Version="2.6.11" />
   </ItemGroup>
@@ -15,7 +27,6 @@
   <ItemGroup>
     <Folder Include="API\Models\Response\" />
     <Folder Include="API\Models\Request\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
