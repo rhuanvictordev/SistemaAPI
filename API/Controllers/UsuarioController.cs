@@ -9,11 +9,7 @@ namespace RestauranteAPI.API.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : BaseController
     {
-
-        public UsuarioController()
-        {
-        }
-
+        
         [HttpGet]
         public List<Usuario> GetUsers()
         {
@@ -21,14 +17,22 @@ namespace RestauranteAPI.API.Controllers
             return list;
         }
 
-        [HttpPost]
-        public Usuario RegisterUser([FromBody] RegisterRequest request)
-        {
-            Usuario usuario = new Usuario() { Nome = request.Nome, Email = request.Email, SenhaHash = request.Senha};
-            usuario.Save();
-            return usuario;
 
-            return null;
+        [HttpPost]
+        public ActionResult RegisterUser([FromBody] RegisterRequest request)
+        {
+            Usuario usuario = new Usuario() { Nome = request.Nome, Email = request.Email, SenhaHash = request.Senha };
+            SaveModelResult result = usuario.Save();
+
+            if (result.Success)
+                return Ok(usuario);
+
+            return StatusCode(409, new SaveModelResultOutputDTO()
+            {
+                Status = 409,
+                Success = false,
+                Message = result.Message
+            });
         }
     }
 }

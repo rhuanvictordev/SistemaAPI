@@ -1,5 +1,4 @@
 ﻿using RestauranteAPI.Data;
-using RestauranteAPI.Models;
 
 namespace RestauranteAPI.Framework
 {
@@ -77,18 +76,22 @@ namespace RestauranteAPI.Framework
         
         
         
-        public BaseModelReturnSave Insert(string tableName, List<Parametro> parametros)
+        public SaveModelResult Insert(string tableName, List<Parametro> parametros)
         {
-            var command = db.CreateCommand();
-            command.CommandText = DbUtils.MakeSqlInsert(tableName, parametros);
+            try
+            {
+                var command = db.CreateCommand();
+                command.CommandText = DbUtils.MakeSqlInsert(tableName, parametros);
+                foreach (var param in parametros)
+                    command.Parameters.AddWithValue("?", param.Valor);
 
-            foreach (var param in parametros)
-                command.Parameters.AddWithValue("?", param.Valor);
-
-            if (command.ExecuteNonQuery() > 0)
-                return new BaseModelReturnSave() { Id = command.LastInsertedId.ToString(), Success = true };
-
-            return new BaseModelReturnSave() { Id = "", Success = false };
+                command.ExecuteNonQuery();
+                return new SaveModelResult(){ Id = command.LastInsertedId.ToString(), Success = true, Message = "Inserido com sucesso"};
+            }
+            catch (Exception ex)
+            {
+                return new SaveModelResult() { Success = false, Message = ex.Message };
+            }
         }
 
         public bool Update(string tableName, List<Parametro> parameters)

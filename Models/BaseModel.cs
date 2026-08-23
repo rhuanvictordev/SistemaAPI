@@ -18,7 +18,7 @@ namespace RestauranteAPI.Models
             db = new DbHelper();
         }
 
-        public T Save()
+        public SaveModelResult Save()
         {
             var parametros = CriarParametros();
             string tableName = parametros[0].TableName.ToUpper();
@@ -29,7 +29,7 @@ namespace RestauranteAPI.Models
             }
             else
             {
-                var result = db.Insert(tableName, parametros);
+                SaveModelResult result = db.Insert(tableName, parametros);
                 if (result.Success)
                 {
                     Parametro parametroChave = parametros.First(p => p.Chave);
@@ -37,9 +37,15 @@ namespace RestauranteAPI.Models
 
                     if (atributoModel != null)
                         atributoModel.SetValue(this, Convert.ChangeType(result.Id, atributoModel.PropertyType));
+
+                    return new SaveModelResult() { Success = true };
+                }
+                else 
+                {
+                    return result;
                 }
             }
-            return (T)this;
+            return new SaveModelResult() { Success = false };
         }
 
         public static List<T> Query()
