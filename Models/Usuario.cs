@@ -1,38 +1,25 @@
-﻿using RestauranteAPI.Models.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestauranteAPI.Data;
+using RestauranteAPI.Framework;
 
 namespace RestauranteAPI.Models
 {
-    public class Usuario : IModel
+    public class Usuario : BaseModel<Usuario>
     {
         public long Id { get; set; }
-        public string Nome { get; set; }
-        public string Email { get; set; }
-        public string SenhaHash { get; set; }
+        public required string Nome { get; set; }
+        public required string Email { get; set; }
+        public required string SenhaHash { get; set; }
 
-
-        public void Save()
+        public override List<Parametro> CriarParametros()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Load(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(object obj)
-        {
-            throw new NotImplementedException();
+            return new List<Parametro>()
+            {
+                new Parametro("USUARIOS", true, "ID", this.Id, nameof(Id)),
+                new Parametro("USUARIOS", false, "NOME", this.Nome, nameof(Nome)),
+                new Parametro("USUARIOS", false, "EMAIL", this.Email, nameof(Email)),
+                new Parametro("USUARIOS", false, "SENHAHASH", this.SenhaHash, nameof(SenhaHash))
+            };
+            
         }
     }
 }

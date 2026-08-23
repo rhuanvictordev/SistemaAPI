@@ -1,20 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestauranteAPI.API.DTOs.Requests;
+using RestauranteAPI.Framework;
 using RestauranteAPI.Models;
 
 namespace RestauranteAPI.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : BaseController
     {
+
+        public UsuarioController()
+        {
+        }
+
         [HttpGet]
-        public List<Usuario> getUsers()
-        { 
-            var list = new List<Usuario>();
-            Usuario u = new Usuario() { Id = 1, Nome = "Rhuan Victor", SenhaHash = "12345678", Email = "rhuan@email.com" };
-            list.Add(u);
+        public List<Usuario> GetUsers()
+        {
+            var list = Usuario.Query();
             return list;
+        }
+
+        [HttpPost]
+        public Usuario RegisterUser([FromBody] RegisterRequest request)
+        {
+            Usuario usuario = new Usuario() { Nome = request.Nome, Email = request.Email, SenhaHash = request.Senha};
+            usuario.Save();
+            return usuario;
+
+            return null;
         }
     }
 }
