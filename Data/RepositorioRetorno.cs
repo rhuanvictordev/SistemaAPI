@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RestauranteAPI.Repository
+namespace RestauranteAPI.Data
 {
     public class RepositorioRetorno
     {

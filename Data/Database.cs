@@ -4,18 +4,22 @@ using System.Configuration;
 
 namespace RestauranteAPI.Data
 {
-    public class Database
+    public static class Database
     {
-        private readonly string _connectionString;
+        private static string _connectionString = "Server=localhost;Port=3306;Database=api;User ID=root;Password=root;";
 
-        public Database(IConfiguration configuration)
+        public static MySqlConnection Connect()
         {
-            _connectionString = configuration.GetConnectionString("Mysql");
-        }
-
-        public MySqlConnection CreateConnection()
-        {
-            return new MySqlConnection(_connectionString);
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(_connectionString);
+                conn.Open();
+                return conn;
+            }
+            catch (Exception ex) 
+            {
+                throw;
+            }
         }
     }
 }

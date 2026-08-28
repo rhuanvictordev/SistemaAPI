@@ -2,38 +2,28 @@
 using RestauranteAPI.API.Controllers;
 using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.API.DTOs.Response;
+using RestauranteAPI.Data;
 using RestauranteAPI.Models;
 using RestauranteAPI.Repository;
+using RestauranteAPI.Service;
 
 [Route("api/[controller]")]
 public class UsuarioController : BaseController
 {
-    UsuarioRepository rep;
+    UsuarioService service;
 
     public UsuarioController()
     {
-        rep = new UsuarioRepository();
+        service = new UsuarioService();
     }
 
     [HttpPost]
     public ActionResult RegisterUser([FromBody] RegisterRequest request)
     {
-        Usuario u = new Usuario()
-        {
-            Id = 0,
-            Nome = request.Nome,
-            Email = request.Email,
-            Senha = request.Senha
-        };
-
-        RepositorioRetorno retorno = rep.Save(u);
-
+        RepositorioRetorno retorno = service.Save(request);
         if (retorno.Success)
         {
-            ControllerResponse response = new ControllerResponse();
-            response.StatusCode = 200;
-            response.Response = retorno.Result;
-
+            ControllerResponse response = new ControllerResponse() { Status = 200, Data = retorno.Result };
             return Ok(response);
         }
 
@@ -43,19 +33,19 @@ public class UsuarioController : BaseController
     [HttpGet]
     public ActionResult Listar()
     {
-        return Ok(rep.Query());
+        return Ok(service.Query());
     }
 
     [HttpGet("{id}")]
     public ActionResult Carregar(long id)
     {
-        return Ok(rep.Load(id));
+        return Ok(service.GetById(id));
     }
 
     [HttpDelete("{id}")]
     public ActionResult Delete(long id)
     {
-        RepositorioRetorno retorno = rep.Delete(id);
+        RepositorioRetorno retorno = service.Delete(id);
 
         if (retorno.Success)
         {
@@ -76,7 +66,7 @@ public class UsuarioController : BaseController
             Senha = request.Senha
         };
 
-        RepositorioRetorno retorno = rep.Update(u);
+        RepositorioRetorno retorno = service.Update(u);
 
         if (retorno.Success)
             return Ok(retorno);
@@ -87,7 +77,7 @@ public class UsuarioController : BaseController
     [HttpPatch("{id}")]
     public ActionResult Patch(long id, [FromBody] Usuario request)
     {
-        Usuario u = (Usuario) rep.Load(id).Result;
+        Usuario u = (Usuario) service.GetById(id).Result;
 
         if (u == null)
             return NotFound();
@@ -101,7 +91,7 @@ public class UsuarioController : BaseController
         if (request.Senha != null)
             u.Senha = request.Senha;
 
-        RepositorioRetorno retorno = rep.Update(u);
+        RepositorioRetorno retorno = service.Update(u);
 
         if (retorno.Success)
             return Ok(retorno);

@@ -13,8 +13,6 @@ namespace RestauranteAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddScoped<Database>();
-
             var app = builder.Build();
             
             if (app.Environment.IsDevelopment())
@@ -29,9 +27,6 @@ namespace RestauranteAPI
             app.UseAuthorization();
             app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             app.Run();
-
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            string connectionString = configuration.GetConnectionString("Mysql");
         }
     }
 }
