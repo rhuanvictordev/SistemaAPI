@@ -20,7 +20,10 @@ namespace RestauranteAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
