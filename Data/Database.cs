@@ -1,31 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MySqlConnector;
-using RestauranteAPI.Framework;
+using System.Configuration;
 
 namespace RestauranteAPI.Data
 {
     public class Database
     {
-        public static string connectionString;
-        public static MySqlConnection Connection;
+        private readonly string _connectionString;
 
-        public Database()
+        public Database(IConfiguration configuration)
         {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            connectionString = configuration.GetConnectionString("Mysql");
-            
+            _connectionString = configuration.GetConnectionString("Mysql");
         }
 
-        public bool Load(string tableName, string id)
+        public MySqlConnection CreateConnection()
         {
-            return false;
-        }
-
-        public MySqlCommand CreateCommand()
-        { 
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            conn.Open();
-            return conn.CreateCommand();
+            return new MySqlConnection(_connectionString);
         }
     }
 }

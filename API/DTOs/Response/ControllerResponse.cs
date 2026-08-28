@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RestauranteAPI.Framework
+namespace RestauranteAPI.API.DTOs.Response
 {
-    public class SaveModelResultOutputDTO
+    public class ControllerResponse
     {
-        public int Status { get; set; }
-        public bool Success { get; set; }
+        public int? StatusCode { get; set; }
         public string? Message { get; set; }
+        public object? Response { get; set; }
     }
 }

@@ -1,38 +1,111 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using RestauranteAPI.API.Controllers;
 using RestauranteAPI.API.DTOs.Requests;
-using RestauranteAPI.Framework;
+using RestauranteAPI.API.DTOs.Response;
 using RestauranteAPI.Models;
+using RestauranteAPI.Repository;
 
-namespace RestauranteAPI.API.Controllers
+[Route("api/[controller]")]
+public class UsuarioController : BaseController
 {
-    [Route("api/[controller]")]
-    public class UsuarioController : BaseController
+    UsuarioRepository rep;
+
+    public UsuarioController()
     {
-        
-        [HttpGet]
-        public List<Usuario> GetUsers()
+        rep = new UsuarioRepository();
+    }
+
+    [HttpPost]
+    public ActionResult RegisterUser([FromBody] RegisterRequest request)
+    {
+        Usuario u = new Usuario()
         {
-            var list = Usuario.Query();
-            return list;
+            Id = 0,
+            Nome = request.Nome,
+            Email = request.Email,
+            Senha = request.Senha
+        };
+
+        RepositorioRetorno retorno = rep.Save(u);
+
+        if (retorno.Success)
+        {
+            ControllerResponse response = new ControllerResponse();
+            response.StatusCode = 200;
+            response.Response = retorno.Result;
+
+            return Ok(response);
         }
 
+        return BadRequest(retorno.Message);
+    }
 
-        [HttpPost]
-        public ActionResult RegisterUser([FromBody] RegisterRequest request)
+    [HttpGet]
+    public ActionResult Listar()
+    {
+        return Ok(rep.Query());
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult Carregar(long id)
+    {
+        return Ok(rep.Load(id));
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult Delete(long id)
+    {
+        RepositorioRetorno retorno = rep.Delete(id);
+
+        if (retorno.Success)
         {
-            Usuario usuario = new Usuario() { Nome = request.Nome, Email = request.Email, SenhaHash = request.Senha };
-            SaveModelResult result = usuario.Save();
-
-            if (result.Success)
-                return Ok(usuario);
-
-            return StatusCode(409, new SaveModelResultOutputDTO()
-            {
-                Status = 409,
-                Success = false,
-                Message = result.Message
-            });
+            return Ok(retorno);
         }
+
+        return BadRequest(retorno.Message);
+    }
+
+    [HttpPut("{id}")]
+    public ActionResult Update(long id, [FromBody] RegisterRequest request)
+    {
+        Usuario u = new Usuario()
+        {
+            Id = id,
+            Nome = request.Nome,
+            Email = request.Email,
+            Senha = request.Senha
+        };
+
+        RepositorioRetorno retorno = rep.Update(u);
+
+        if (retorno.Success)
+            return Ok(retorno);
+
+        return BadRequest(retorno.Message);
+    }
+
+    [HttpPatch("{id}")]
+    public ActionResult Patch(long id, [FromBody] Usuario request)
+    {
+        Usuario u = (Usuario) rep.Load(id).Result;
+
+        if (u == null)
+            return NotFound();
+
+        if (request.Nome != null)
+            u.Nome = request.Nome;
+
+        if (request.Email != null)
+            u.Email = request.Email;
+
+        if (request.Senha != null)
+            u.Senha = request.Senha;
+
+        RepositorioRetorno retorno = rep.Update(u);
+
+        if (retorno.Success)
+            return Ok(retorno);
+
+        return BadRequest(retorno.Message);
     }
 }
