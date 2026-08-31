@@ -22,7 +22,7 @@ namespace RestauranteAPI.Service
 
         public RepositorioRetorno Save(RegisterRequest request)
         {
-            Usuario u = new Usuario() { Id = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha };
+            Usuario u = new Usuario() { Id = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha, Grupo = request.Grupo };
             return repository.Save(u);
         }
 
