@@ -9,20 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="API\Models\**" />
-    <Compile Remove="Repositories\**" />
-    <Compile Remove="Services\**" />
     <Content Remove="API\Models\**" />
-    <Content Remove="Repositories\**" />
-    <Content Remove="Services\**" />
     <EmbeddedResource Remove="API\Models\**" />
-    <EmbeddedResource Remove="Repositories\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="API\Models\**" />
-    <None Remove="Repositories\**" />
-    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="MySqlConnector" Version="2.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.11" />

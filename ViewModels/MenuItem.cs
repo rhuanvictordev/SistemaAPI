@@ -1,4 +1,4 @@
-﻿namespace SistemaAPI.Models
+﻿namespace SistemaAPI.ViewModels
 {
     public class MenuItem
     {

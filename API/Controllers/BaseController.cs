@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RestauranteAPI.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RestauranteAPI.API.Controllers
+namespace SistemaAPI.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Route("api/[controller]")]
+    [Authorize]
     public class BaseController : ControllerBase
     {
         

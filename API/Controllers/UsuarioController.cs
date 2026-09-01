@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RestauranteAPI.API.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.API.DTOs.Response;
 using RestauranteAPI.Data;
 using RestauranteAPI.Models;
 using RestauranteAPI.Repository;
 using RestauranteAPI.Service;
+using SistemaAPI.API.Controllers;
+using SistemaAPI.Services.Auth;
 
-[Route("api/[controller]")]
+
 public class UsuarioController : BaseController
 {
     UsuarioService service;

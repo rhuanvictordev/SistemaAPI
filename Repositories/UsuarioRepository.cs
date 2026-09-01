@@ -89,6 +89,44 @@ namespace RestauranteAPI.Repository
             }
         }
 
+        public RepositorioRetorno Login(string email, string senha)
+        {
+            try
+            {
+                using (var connection = Database.Connect())
+                {
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = @"SELECT IDUSUARIO, NOME, EMAIL, SENHA, GRUPO FROM USUARIOS WHERE EMAIL = @email AND SENHA = @senha";
+                        command.Parameters.AddWithValue("@email", email);
+                        command.Parameters.AddWithValue("@senha", senha);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Usuario u = new Usuario()
+                                {
+                                    Id = long.Parse(reader[0].ToString()),
+                                    Nome = reader[1].ToString(),
+                                    Email = reader[2].ToString(),
+                                    Senha = reader[3].ToString(),
+                                    Grupo = reader[4].ToString()
+                                };
+
+                                return new RepositorioRetorno() { Success = true, Result = u };
+                            }
+                        }
+                    }
+                }
+
+                return new RepositorioRetorno() { Success = false, Message = "Usuário não encontrado." };
+            }
+            catch (Exception ex)
+            {
+                return new RepositorioRetorno() { Success = false, Message = ex.Message };
+            }
+        }
+
 
 
         public RepositorioRetorno Query()
