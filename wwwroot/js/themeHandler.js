@@ -1,4 +1,5 @@
-﻿
+﻿loadTheme();
+
 function switchTheme() {
     const temaSalvo = localStorage.getItem("theme") || "light";
     document.documentElement.classList.remove("light", "dark");
@@ -14,9 +15,6 @@ function switchTheme() {
 
 function loadTheme() {
     const temaSalvo = localStorage.getItem("theme") || "light";
-
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(temaSalvo);
 }
-
-window.addEventListener("load", loadTheme);

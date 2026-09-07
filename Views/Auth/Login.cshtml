@@ -1,50 +1,42 @@
 ﻿@{
-    Layout = null;
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Entrar";
 }
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema - Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="~/css/theme.css" />
-</head>
-<body class="min-h-screen bg-[var(--back)] text-[var(--text)] flex items-center justify-center">
-    <div class="w-full max-w-md px-4">
-        <div class="bg-[var(--card-back)] rounded-2xl shadow-xl p-8">
-            <!-- Cabeçalho -->
-            <div class="text-center mb-8">
-                <div class="mx-auto mb-4 w-14 h-14 bg-[var(--primary)] rounded-2xl flex items-center justify-center shadow-md">
-                    <span class="text-[var(--button-text)] text-2xl font-bold"> S </span>
-                </div>
-                <h1 class="text-3xl font-bold"> Sistema </h1>
-                <p class="mt-1 text-[var(--text-secondary)]"> Entre na sua conta </p>
-            </div>
 
-            <form method="post" asp-controller="Auth" asp-action="Login" class="space-y-5">
-                <div>
-                    <label for="email" class="block text-sm font-semibold mb-2"> E-mail </label>
-                    <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required class="w-full px-4 py-3 border border-[var(--border)] bg-[var(--card-back)] rounded-lg outline-none transition focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]" />
-                </div>
-                <div>
-                    <label for="senha" class="block text-sm font-semibold mb-2"> Senha </label>
-                    <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" required class="w-full px-4 py-3 border border-[var(--border)] bg-[var(--card-back)] rounded-lg outline-none transition focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]" />
-                </div>
+<div class="w-full max-w-md px-4">
+    <div class="bg-[var(--card-back)] rounded-2xl shadow-xl p-8">
+        <!-- Cabeçalho -->
+        <div class="text-center mb-8">
+            <div class="mx-auto mb-4 w-14 h-14 bg-[var(--primary)] rounded-2xl flex items-center justify-center shadow-md">
+                <span class="text-[var(--button-text)] text-2xl font-bold"> S </span>
+            </div>
+            <h1 class="text-3xl font-bold"> Sistema </h1>
+            <p class="mt-1 text-[var(--text-secondary)]"> Entre na sua conta </p>
+        </div>
+
+        <form method="post" asp-controller="Auth" asp-action="Login" class="space-y-5">
+            <div>
+                <label for="email" class="block text-sm font-semibold mb-2"> E-mail </label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required class="w-full px-4 py-3 border border-[var(--border)] bg-[var(--card-back)] rounded-lg outline-none transition focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]" />
+            </div>
+            <div>
+                <label for="senha" class="block text-sm font-semibold mb-2"> Senha </label>
+                <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" required class="w-full px-4 py-3 border border-[var(--border)] bg-[var(--card-back)] rounded-lg outline-none transition focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)]" />
+            </div>
+            <div>
                 <button type="submit" class="w-full bg-[var(--button-back)] text-[var(--button-text)] font-semibold py-3 rounded-lg transition duration-300 shadow-md hover:opacity-90 active:scale-[0.98]"> Entrar </button>
-            </form>
-
-            <div class="text-center mt-6">
-                <p class="text-sm text-[var(--text-secondary)]"> SistemaAPI </p>
             </div>
+        </form>
+
+        <div class="text-center mt-6">
+            <a asp-controller="Auth" asp-action="Register"> Criar conta </a>
+            <p class="text-sm mt-10 text-[var(--text-secondary)]"> SistemaAPI &copy; 2026 </p>
         </div>
     </div>
+</div>
 
-    <div class="fixed right-0 bottom-0 mr-3 mb-3" title="Alterar Tema">
-        <button class="cursor-pointer" onclick="switchTheme()"> 🌙 </button>
-    </div>
+<div class="fixed right-0 bottom-0 mr-3 mb-3" title="Alterar Tema">
+    <button class="cursor-pointer" onclick="switchTheme()"> 🌙 </button>
+</div>
 
-    <script src="~/js/login/login.js"></script>
-</body>
-</html>
