@@ -8,6 +8,14 @@
 </head>
 
 <body class="h-screen overflow-hidden bg-gray-100 text-sm">
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <form asp-controller="Auth" asp-action="Logout" method="post">
+            <button type="submit">Sair</button>
+        </form>
+    }
+    
     @Html.Partial("_Header");
    
     <div class="flex h-[calc(100vh-5rem)]">

@@ -27,22 +27,19 @@ namespace RestauranteAPI
                 });
 
                 s.AddSecurityRequirement(document =>
-                    new OpenApiSecurityRequirement
-                    {
-                        [new OpenApiSecuritySchemeReference("Bearer", document)]
-                            = new List<string>()
-                    });
+                    new OpenApiSecurityRequirement { [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>() });
             });
 
             builder.Services.AddAuthorization();
 
             var key = Encoding.ASCII.GetBytes(Key.Secret);
-            
+
             builder.Services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            })
+            .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -55,8 +52,12 @@ namespace RestauranteAPI
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ClockSkew = TimeSpan.Zero
                 };
+            })
+            .AddCookie("CookieAuth", options =>
+            {
+                options.LoginPath = "/Auth/Login";
             });
-            
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment() || !app.Environment.IsDevelopment())
