@@ -27,7 +27,12 @@ namespace RestauranteAPI
                 });
 
                 s.AddSecurityRequirement(document =>
-                    new OpenApiSecurityRequirement { [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>() });
+                    new OpenApiSecurityRequirement 
+                    { 
+                        [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>() 
+                    }
+                );
+
             });
 
             builder.Services.AddAuthorization();
