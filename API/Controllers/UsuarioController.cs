@@ -65,7 +65,8 @@ public class UsuarioController : BaseController
             Id = id,
             Nome = request.Nome,
             Email = request.Email,
-            Senha = request.Senha
+            Senha = request.Senha,
+            Grupo = request.Grupo
         };
 
         RepositorioRetorno retorno = service.Update(u);
