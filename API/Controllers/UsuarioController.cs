@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.API.DTOs.Response;
@@ -8,7 +9,6 @@ using RestauranteAPI.Repository;
 using RestauranteAPI.Service;
 using SistemaAPI.API.Controllers;
 using SistemaAPI.Services.Auth;
-
 
 public class UsuarioController : BaseController
 {

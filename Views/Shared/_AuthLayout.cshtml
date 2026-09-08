@@ -20,6 +20,9 @@
 </head>
 <body class="min-h-screen bg-[var(--back)] text-[var(--text)] flex items-center justify-center">
     @RenderBody()
+    <div id="toast" class="bg-[var(--back)] h-20 fixed right-2 shadow-xl border-2 bottom-10 flex text-center justify-center items-center rounded-lg p-3">
+        Mensagem: Fulano de tal tal coisa.
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="~/js/auth/register.js"></script>
 </body>

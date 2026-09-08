@@ -3,23 +3,30 @@ $("#registerForm").on("submit", function (e) {
     e.preventDefault();
     const email = $("#email").val();
     const senha = $("#senha").val();
-    
+    const senhaConfirm = $("#senhaConfirm").val();
+
+    if (senha != senhaConfirm) {
+        alert("As senhas não conferem");
+        return;
+    }
 
     const data = {
-        email: email,
-        senha: senha
+        Nome: "teste",
+        Email: email,
+        Senha: senha,
+        Grupo: "USER"
     };
-
+    
     $.ajax({
-        url: "/api/auth/register",
+        url: "/api/usuario",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
-            console.log(response);
+            window.location.href = "/";
         },
         error: function (xhr) {
-            console.log(xhr);
+            console.log("Ocorreu um erro no registro");
         }
     });
 });
