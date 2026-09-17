@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using SistemaAPI.Services.Auth;
+using SistemaAPI.API.Services.Auth;
 using System.Text;
 
 namespace RestauranteAPI

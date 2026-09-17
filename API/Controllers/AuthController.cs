@@ -3,12 +3,7 @@ using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.Data;
 using RestauranteAPI.Models;
 using SistemaAPI.API.Repositories;
-using SistemaAPI.Services.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SistemaAPI.API.Services.Auth;
 
 namespace SistemaAPI.API.Controllers
 {
@@ -25,7 +20,7 @@ namespace SistemaAPI.API.Controllers
 
         
         [HttpPost]
-        public IActionResult Auth([FromBody] LoginRequest request)
+        public IActionResult Auth([FromBody] LoginRequestDTO request)
         {
             RepositorioRetorno r = repo.Login(request.Email, request.Senha);
             if (r.Success)

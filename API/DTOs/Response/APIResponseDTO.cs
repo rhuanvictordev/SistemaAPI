@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace RestauranteAPI.API.DTOs.Response
 {
-    public class APIResponse
+    public class APIResponseDTO
     {
         public int? Status { get; set; }
         public object? Data { get; set; }

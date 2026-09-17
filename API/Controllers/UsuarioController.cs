@@ -11,11 +11,11 @@ public class UsuarioController : BaseController
     
 
     [HttpPost]
-    public ActionResult CadastrarUsuario([FromBody] RegisterRequest request)
+    public ActionResult CadastrarUsuario([FromBody] RegisterRequestDTO request)
     {
         RepositorioRetorno retorno = Usuarioservice.Save(request);
         if (retorno.Success)
-            return StatusCode(201, new APIResponse { Status = 201, Data = retorno.Result, Message = "Usuário cadastrado com sucesso" });
+            return StatusCode(201, new APIResponseDTO { Status = 201, Data = retorno.Result, Message = "Usuário cadastrado com sucesso" });
         
         return BadRequest(retorno.Message);
     }
@@ -28,7 +28,7 @@ public class UsuarioController : BaseController
     {
         RepositorioRetorno retorno = Usuarioservice.Query();
         if (retorno.Success)
-            return Ok(new APIResponse { Status = 200, Data = retorno.Result });
+            return Ok(new APIResponseDTO { Status = 200, Data = retorno.Result });
         
         return BadRequest(retorno.Message);
     }
@@ -43,7 +43,7 @@ public class UsuarioController : BaseController
         if (u == null)
             return NotFound("Usuário não encontrado");
         
-        return Ok(new APIResponse { Status = 200, Data = u });
+        return Ok(new APIResponseDTO { Status = 200, Data = u });
     }
 
 
@@ -63,11 +63,11 @@ public class UsuarioController : BaseController
 
 
     [HttpPut("{id}")]
-    public ActionResult EditarUsuario(long id, [FromBody] RegisterRequest request)
+    public ActionResult EditarUsuario(long id, [FromBody] RegisterRequestDTO request)
     {
         Usuario u = Usuarioservice.GetById(id);
         if (u == null)
-            return NotFound(new APIResponse { Message = "Usuário não encontrado" });
+            return NotFound(new APIResponseDTO { Message = "Usuário não encontrado" });
         
         u.Nome = request.Nome;
         u.Email = request.Email;
@@ -77,7 +77,7 @@ public class UsuarioController : BaseController
 
         RepositorioRetorno retorno = Usuarioservice.Update(u);
         if (retorno.Success)
-            return Ok(new APIResponse { Status = 200, Data = u, Message = "Usuário editado com sucesso"});
+            return Ok(new APIResponseDTO { Status = 200, Data = u, Message = "Usuário editado com sucesso"});
 
         return BadRequest(retorno.Message);
     }
@@ -90,10 +90,10 @@ public class UsuarioController : BaseController
     {
         Usuario u = Usuarioservice.GetById(id);
         if (u == null)
-            return NotFound(new APIResponse { Message = "Usuário não encontrado" });
+            return NotFound(new APIResponseDTO { Message = "Usuário não encontrado" });
 
         if (request.IdUsuario != null && request.IdUsuario != u.IdUsuario)
-            return NotFound(new APIResponse { Message = "Não é possível alterar o ID do usuário" });
+            return NotFound(new APIResponseDTO { Message = "Não é possível alterar o ID do usuário" });
 
         u.Nome = request.Nome == null ? u.Nome : request.Nome;
         u.Email = request.Email == null ? u.Email : request.Email;
@@ -102,7 +102,7 @@ public class UsuarioController : BaseController
 
         RepositorioRetorno retorno = Usuarioservice.Update(u);
         if (retorno.Success)
-            return Ok(new APIResponse { Status = 200, Data = u, Message = "Usuário atualizado com sucesso" });
+            return Ok(new APIResponseDTO { Status = 200, Data = u, Message = "Usuário atualizado com sucesso" });
 
         return BadRequest(retorno.Message);
     }

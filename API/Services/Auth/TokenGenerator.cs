@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SistemaAPI.Services.Auth
+namespace SistemaAPI.API.Services.Auth
 {
     public class TokenGenerator
     {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RestauranteAPI.Service
+namespace SistemaAPI.API.Services
 {
     public class UsuarioService
     {
@@ -20,7 +20,7 @@ namespace RestauranteAPI.Service
             repository = new UsuarioRepository();
         }
 
-        public RepositorioRetorno Save(RegisterRequest request)
+        public RepositorioRetorno Save(RegisterRequestDTO request)
         {
             Usuario u = new Usuario() { IdUsuario = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha, IdGrupo = request.IdGrupo };
             return repository.Save(u);

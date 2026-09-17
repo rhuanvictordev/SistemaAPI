@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace RestauranteAPI.API.DTOs.Requests
 {
-    public class LoginRequest
+    public class LoginRequestDTO
     {
         public required string Email {  get; set; }
         public required string Senha { get; set; }
