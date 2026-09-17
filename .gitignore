@@ -5,6 +5,7 @@ bin/
 obj/
 .suo
 .vscode/
+.config/
 
 
 # Nuget Packages
