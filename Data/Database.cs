@@ -6,7 +6,7 @@ namespace RestauranteAPI.Data
 {
     public static class Database
     {
-        private static string _connectionString = "Server=localhost;Port=3306;Database=api;User ID=root;Password=root;";
+        private static string _connectionString = "Server=localhost;Port=3306;Database=sistema;User ID=root;Password=root;";
 
         public static MySqlConnection Connect()
         {

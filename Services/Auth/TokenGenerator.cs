@@ -15,7 +15,7 @@ namespace SistemaAPI.Services.Auth
             {
                 Subject = new ClaimsIdentity(new Claim[] 
                 {
-                    new Claim("userID", user.Id.ToString())
+                    new Claim("userID", user.IdUsuario.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

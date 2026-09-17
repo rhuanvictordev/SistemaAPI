@@ -10,15 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RestauranteAPI.Repository
+namespace SistemaAPI.API.Repositories
 {
     public class UsuarioRepository
     {
-        public UsuarioRepository()
-        {
-            
-        }
-
         public RepositorioRetorno Save(Usuario u)
         {
             try
@@ -27,13 +22,15 @@ namespace RestauranteAPI.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = @"INSERT INTO USUARIOS (NOME, EMAIL, SENHA, GRUPO) VALUES (@nome, @email, @senha, @grupo)";
+                        command.CommandText = @"INSERT INTO USUARIOS (NOME, EMAIL, SENHA, IDGRUPO, CRIADO, ALTERADO) VALUES (@nome, @email, @senha, @idGrupo, @criado, @alterado)";
                         command.Parameters.AddWithValue("@nome", u.Nome);
                         command.Parameters.AddWithValue("@email", u.Email);
                         command.Parameters.AddWithValue("@senha", u.Senha);
-                        command.Parameters.AddWithValue("@grupo", u.Grupo);
+                        command.Parameters.AddWithValue("@idGrupo", u.IdGrupo);
+                        command.Parameters.AddWithValue("@criado", DateTime.Now);
+                        command.Parameters.AddWithValue("@alterado", DateTime.Now);
                         command.ExecuteNonQuery();
-                        u.Id = command.LastInsertedId;
+                        u.IdUsuario = command.LastInsertedId;
                         return new RepositorioRetorno() { Success = true, Result = u };
                     }
                 }
@@ -60,7 +57,7 @@ namespace RestauranteAPI.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = @"SELECT IDUSUARIO, NOME, EMAIL, SENHA, GRUPO FROM USUARIOS WHERE IDUSUARIO = @id";
+                        command.CommandText = @"SELECT IDUSUARIO, NOME, EMAIL, SENHA, IDGRUPO, CRIADO, ALTERADO FROM USUARIOS WHERE IDUSUARIO = @id";
                         command.Parameters.AddWithValue("@id", id);
                         using (var reader = command.ExecuteReader())
                         {
@@ -68,11 +65,13 @@ namespace RestauranteAPI.Repository
                             {
                                 Usuario u = new Usuario()
                                 {
-                                    Id = long.Parse(reader[0].ToString()),
+                                    IdUsuario = long.Parse(reader[0].ToString()),
                                     Nome = reader[1].ToString(),
                                     Email = reader[2].ToString(),
                                     Senha = reader[3].ToString(),
-                                    Grupo = reader[4].ToString()
+                                    IdGrupo = long.Parse(reader[4].ToString()),
+                                    Criado = DateTime.Parse(reader[5].ToString()),
+                                    Alterado = DateTime.Parse(reader[6].ToString()),
                                 };
 
                                 return new RepositorioRetorno() { Success = true, Result = u };
@@ -97,7 +96,7 @@ namespace RestauranteAPI.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = @"SELECT IDUSUARIO, NOME, EMAIL, SENHA, GRUPO FROM USUARIOS WHERE EMAIL = @email AND SENHA = @senha";
+                        command.CommandText = @"SELECT IDUSUARIO, NOME, EMAIL, SENHA, IDGRUPO, CRIADO, ALTERADO FROM USUARIOS WHERE EMAIL = @email AND SENHA = @senha";
                         command.Parameters.AddWithValue("@email", email);
                         command.Parameters.AddWithValue("@senha", senha);
                         using (var reader = command.ExecuteReader())
@@ -106,11 +105,13 @@ namespace RestauranteAPI.Repository
                             {
                                 Usuario u = new Usuario()
                                 {
-                                    Id = long.Parse(reader[0].ToString()),
+                                    IdUsuario = long.Parse(reader[0].ToString()),
                                     Nome = reader[1].ToString(),
                                     Email = reader[2].ToString(),
                                     Senha = reader[3].ToString(),
-                                    Grupo = reader[4].ToString()
+                                    IdGrupo = long.Parse(reader[4].ToString()),
+                                    Criado = DateTime.Parse(reader[5].ToString()),
+                                    Alterado = DateTime.Parse(reader[6].ToString()),
                                 };
 
                                 return new RepositorioRetorno() { Success = true, Result = u };
@@ -139,18 +140,20 @@ namespace RestauranteAPI.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = @" SELECT IDUSUARIO, NOME, EMAIL, SENHA, GRUPO FROM USUARIOS";
+                        command.CommandText = @" SELECT IDUSUARIO, NOME, EMAIL, SENHA, IDGRUPO, CRIADO, ALTERADO FROM USUARIOS";
                         using (var reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
                                 lista.Add(new Usuario()
                                 {
-                                    Id = long.Parse(reader[0].ToString()),
+                                    IdUsuario = long.Parse(reader[0].ToString()),
                                     Nome = reader[1].ToString(),
                                     Email = reader[2].ToString(),
                                     Senha = reader[3].ToString(),
-                                    Grupo = reader[4].ToString()
+                                    IdGrupo = long.Parse(reader[4].ToString()),
+                                    Criado = DateTime.Parse(reader[5].ToString()),
+                                    Alterado = DateTime.Parse(reader[6].ToString()),
                                 });
                             }
                         }
@@ -175,12 +178,13 @@ namespace RestauranteAPI.Repository
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = @"UPDATE USUARIOS SET NOME = @nome, EMAIL = @email, SENHA = @senha, GRUPO = @grupo WHERE IDUSUARIO = @id";
+                        command.CommandText = @"UPDATE USUARIOS SET NOME = @nome, EMAIL = @email, SENHA = @senha, IDGRUPO = @idGrupo, ALTERADO = @alterado WHERE IDUSUARIO = @id";
                         command.Parameters.AddWithValue("@nome", u.Nome);
                         command.Parameters.AddWithValue("@email", u.Email);
                         command.Parameters.AddWithValue("@senha", u.Senha);
-                        command.Parameters.AddWithValue("@grupo", u.Grupo);
-                        command.Parameters.AddWithValue("@id", u.Id);
+                        command.Parameters.AddWithValue("@idGrupo", u.IdGrupo);
+                        command.Parameters.AddWithValue("@alterado", DateTime.Now);
+                        command.Parameters.AddWithValue("@id", u.IdUsuario);
                         bool success = command.ExecuteNonQuery() > 0;
 
                         return new RepositorioRetorno() { Success = success, Result = u, Message = success ? null : "Usuário não encontrado." };
@@ -206,7 +210,7 @@ namespace RestauranteAPI.Repository
                         command.CommandText = @"DELETE FROM USUARIOS WHERE IDUSUARIO = @id";
                         command.Parameters.AddWithValue("@id", id);
                         bool success = command.ExecuteNonQuery() > 0;
-                        return new RepositorioRetorno() { Success = success, Message = success ? null : "Usuário não encontrado." };
+                        return new RepositorioRetorno() { Success = success, Message = success ? "Usuario deletado com sucesso" : "Usuário não encontrado." };
                     }
                 }
             }

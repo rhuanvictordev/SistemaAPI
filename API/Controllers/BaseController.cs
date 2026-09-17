@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RestauranteAPI.Service;
 
 namespace SistemaAPI.API.Controllers
 {
@@ -10,5 +11,14 @@ namespace SistemaAPI.API.Controllers
     public class BaseController : ControllerBase
     {
         
+        public UsuarioService Usuarioservice;
+
+
+        public BaseController()
+        {
+            Usuarioservice = new UsuarioService();
+        }
+
+
     }
 }

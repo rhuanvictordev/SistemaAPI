@@ -2,7 +2,7 @@
 using RestauranteAPI.API.DTOs.Response;
 using RestauranteAPI.Data;
 using RestauranteAPI.Models;
-using RestauranteAPI.Repository;
+using SistemaAPI.API.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace RestauranteAPI.Service
 
         public RepositorioRetorno Save(RegisterRequest request)
         {
-            Usuario u = new Usuario() { Id = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha, Grupo = request.Grupo };
+            Usuario u = new Usuario() { IdUsuario = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha, IdGrupo = request.IdGrupo };
             return repository.Save(u);
         }
 
@@ -31,9 +31,14 @@ namespace RestauranteAPI.Service
             return repository.Query();
         }
 
-        public RepositorioRetorno GetById(long id)
+        public Usuario GetById(long id)
         {
-            return repository.GetById(id);
+            RepositorioRetorno retorno = repository.GetById(id);
+            if (retorno.Success) 
+            {
+                return (Usuario) retorno.Result;
+            }
+            return null;
         }
 
         public RepositorioRetorno Delete(long id)

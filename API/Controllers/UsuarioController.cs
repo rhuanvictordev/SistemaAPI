@@ -1,104 +1,112 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.API.DTOs.Response;
 using RestauranteAPI.Data;
 using RestauranteAPI.Models;
-using RestauranteAPI.Repository;
-using RestauranteAPI.Service;
 using SistemaAPI.API.Controllers;
-using SistemaAPI.Services.Auth;
+
 
 public class UsuarioController : BaseController
 {
-    UsuarioService service;
-
-    public UsuarioController()
-    {
-        service = new UsuarioService();
-    }
+    
 
     [HttpPost]
-    public ActionResult RegisterUser([FromBody] RegisterRequest request)
+    public ActionResult CadastrarUsuario([FromBody] RegisterRequest request)
     {
-        RepositorioRetorno retorno = service.Save(request);
+        RepositorioRetorno retorno = Usuarioservice.Save(request);
         if (retorno.Success)
-        {
-            ControllerResponse response = new ControllerResponse() { Status = 200, Data = retorno.Result };
-            return Ok(response);
-        }
-
+            return StatusCode(201, new APIResponse { Status = 201, Data = retorno.Result, Message = "Usuário cadastrado com sucesso" });
+        
         return BadRequest(retorno.Message);
     }
+
+
+
 
     [HttpGet]
-    public ActionResult Listar()
+    public ActionResult ListarUsuarios()
     {
-        return Ok(service.Query());
+        RepositorioRetorno retorno = Usuarioservice.Query();
+        if (retorno.Success)
+            return Ok(new APIResponse { Status = 200, Data = retorno.Result });
+        
+        return BadRequest(retorno.Message);
     }
+
+
+
 
     [HttpGet("{id}")]
-    public ActionResult Carregar(long id)
+    public ActionResult ObterUsuario(long id)
     {
-        return Ok(service.GetById(id));
+        Usuario u =  Usuarioservice.GetById(id);
+        if (u == null)
+            return NotFound("Usuário não encontrado");
+        
+        return Ok(new APIResponse { Status = 200, Data = u });
     }
+
+
+
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(long id)
+    public ActionResult DeletarUsuario(long id)
     {
-        RepositorioRetorno retorno = service.Delete(id);
-
+        RepositorioRetorno retorno = Usuarioservice.Delete(id);
         if (retorno.Success)
-        {
-            return Ok(retorno);
-        }
+            return Ok("Usuário deletado com sucesso");
 
         return BadRequest(retorno.Message);
     }
+
+
+
 
     [HttpPut("{id}")]
-    public ActionResult Update(long id, [FromBody] RegisterRequest request)
+    public ActionResult EditarUsuario(long id, [FromBody] RegisterRequest request)
     {
-        Usuario u = new Usuario()
-        {
-            Id = id,
-            Nome = request.Nome,
-            Email = request.Email,
-            Senha = request.Senha,
-            Grupo = request.Grupo
-        };
+        Usuario u = Usuarioservice.GetById(id);
+        if (u == null)
+            return NotFound(new APIResponse { Message = "Usuário não encontrado" });
+        
+        u.Nome = request.Nome;
+        u.Email = request.Email;
+        u.Senha = request.Senha;
+        u.IdGrupo = request.IdGrupo;
+        u.Alterado = DateTime.Now;
 
-        RepositorioRetorno retorno = service.Update(u);
-
+        RepositorioRetorno retorno = Usuarioservice.Update(u);
         if (retorno.Success)
-            return Ok(retorno);
+            return Ok(new APIResponse { Status = 200, Data = u, Message = "Usuário editado com sucesso"});
 
         return BadRequest(retorno.Message);
     }
+
+
+
 
     [HttpPatch("{id}")]
-    public ActionResult Patch(long id, [FromBody] Usuario request)
+    public ActionResult AlterarUsuario(long id, [FromBody] Usuario request)
     {
-        Usuario u = (Usuario) service.GetById(id).Result;
-
+        Usuario u = Usuarioservice.GetById(id);
         if (u == null)
-            return NotFound();
+            return NotFound(new APIResponse { Message = "Usuário não encontrado" });
 
-        if (request.Nome != null)
-            u.Nome = request.Nome;
+        if (request.IdUsuario != null && request.IdUsuario != u.IdUsuario)
+            return NotFound(new APIResponse { Message = "Não é possível alterar o ID do usuário" });
 
-        if (request.Email != null)
-            u.Email = request.Email;
+        u.Nome = request.Nome == null ? u.Nome : request.Nome;
+        u.Email = request.Email == null ? u.Email : request.Email;
+        u.Senha = request.Senha == null ? u.Senha : request.Senha;
+        u.IdGrupo = request.IdGrupo == null ? u.IdGrupo : request.IdGrupo;
 
-        if (request.Senha != null)
-            u.Senha = request.Senha;
-
-        RepositorioRetorno retorno = service.Update(u);
-
+        RepositorioRetorno retorno = Usuarioservice.Update(u);
         if (retorno.Success)
-            return Ok(retorno);
+            return Ok(new APIResponse { Status = 200, Data = u, Message = "Usuário atualizado com sucesso" });
 
         return BadRequest(retorno.Message);
     }
+
+
+
 }

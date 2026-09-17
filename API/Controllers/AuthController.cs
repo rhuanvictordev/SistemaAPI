@@ -2,7 +2,7 @@
 using RestauranteAPI.API.DTOs.Requests;
 using RestauranteAPI.Data;
 using RestauranteAPI.Models;
-using RestauranteAPI.Repository;
+using SistemaAPI.API.Repositories;
 using SistemaAPI.Services.Auth;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SistemaAPI.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     public class AuthController : ControllerBase
     {
         
