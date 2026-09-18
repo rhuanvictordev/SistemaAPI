@@ -1,7 +1,7 @@
 ﻿
 namespace RestauranteAPI.API.DTOs.Requests
 {
-    public class RegisterRequestDTO
+    public class RegisterDTO
     {
         public required string Nome {  get; set; }
         public required string Email { get; set; }

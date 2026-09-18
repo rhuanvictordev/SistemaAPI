@@ -11,7 +11,7 @@ public class UsuarioController : BaseController
     
 
     [HttpPost]
-    public ActionResult CadastrarUsuario([FromBody] RegisterRequestDTO request)
+    public ActionResult CadastrarUsuario([FromBody] RegisterDTO request)
     {
         RepositorioRetorno retorno = Usuarioservice.Save(request);
         if (retorno.Success)
@@ -63,7 +63,7 @@ public class UsuarioController : BaseController
 
 
     [HttpPut("{id}")]
-    public ActionResult EditarUsuario(long id, [FromBody] RegisterRequestDTO request)
+    public ActionResult EditarUsuario(long id, [FromBody] RegisterDTO request)
     {
         Usuario u = Usuarioservice.GetById(id);
         if (u == null)

@@ -20,7 +20,7 @@ namespace SistemaAPI.API.Services
             repository = new UsuarioRepository();
         }
 
-        public RepositorioRetorno Save(RegisterRequestDTO request)
+        public RepositorioRetorno Save(RegisterDTO request)
         {
             Usuario u = new Usuario() { IdUsuario = 0, Nome = request.Nome, Email = request.Email, Senha = request.Senha, IdGrupo = request.IdGrupo };
             return repository.Save(u);

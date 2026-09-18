@@ -1,4 +1,5 @@
 ﻿using RestauranteAPI.Data;
+using SistemaAPI.API.DTOs.Requests;
 using SistemaAPI.API.Repositories;
 using SistemaAPI.Models;
 
@@ -13,8 +14,20 @@ namespace SistemaAPI.API.Services
             repository = new FornecedorRepository();
         }
 
-        public RepositorioRetorno Save(Fornecedor f)
+        public RepositorioRetorno Save(CriarFornecedorDTO req)
         {
+            Fornecedor f = new Fornecedor() 
+            { 
+                Nome = req.Nome,
+                Estado = req.Estado, 
+                Cidade = req.Cidade,
+                Bairro = req.Bairro, 
+                CPF_CNPJ = req.CPF_CNPJ,
+                Numero = req.Numero, 
+                Telefone1 = req.Telefone1, 
+                Telefone2 = req.Telefone2
+            };
+            
             return repository.Save(f);
         }
 

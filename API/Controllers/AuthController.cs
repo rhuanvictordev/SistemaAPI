@@ -20,7 +20,7 @@ namespace SistemaAPI.API.Controllers
 
         
         [HttpPost]
-        public IActionResult Auth([FromBody] LoginRequestDTO request)
+        public IActionResult Auth([FromBody] LoginDTO request)
         {
             RepositorioRetorno r = repo.Login(request.Email, request.Senha);
             if (r.Success)

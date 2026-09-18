@@ -13,12 +13,22 @@ namespace SistemaAPI.API.Controllers
         
         public UsuarioService Usuarioservice;
         public FornecedorService FornecedorService;
+        public GrupoUsuarioService GrupoUsuarioService;
+        public ProdutoService ProdutoService;
+        public MesaService MesaService;
+        public EstoqueService EstoqueService;
+        public ConsumoService ConsumoService;
 
 
         public BaseController()
         {
             Usuarioservice = new UsuarioService();
             FornecedorService = new FornecedorService();
+            GrupoUsuarioService = new GrupoUsuarioService();
+            ProdutoService = new ProdutoService();
+            MesaService = new MesaService();
+            EstoqueService = new EstoqueService();
+            ConsumoService = new ConsumoService();
         }
 
 

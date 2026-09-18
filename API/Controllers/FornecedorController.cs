@@ -13,9 +13,10 @@ namespace SistemaAPI.API.Controllers
 
 
         [HttpPost]
-        public ActionResult CadastrarFornecedor([FromBody] Fornecedor f)
+        public ActionResult CadastrarFornecedor([FromBody] CriarFornecedorDTO req)
         {
-            RepositorioRetorno retorno = FornecedorService.Save(f);
+            Fornecedor f = new Fornecedor() { };
+            RepositorioRetorno retorno = FornecedorService.Save(req);
             if (retorno.Success)
                 return StatusCode(201, new APIResponseDTO { Status = 201, Data = retorno.Result, Message = "Fornecedor cadastrado com sucesso" });
 
